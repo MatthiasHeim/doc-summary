@@ -83,5 +83,5 @@
 ## Phase 10: Production-Verifikation
 - [x] **10.1** Production-URL lädt korrekt (WebFetch verifiziert)
 - [x] **10.2** E2E Tests gegen Production-URL: 7/7 bestanden
-- [ ] **10.3** Manueller Walkthrough mit echten Dokumenten (erfordert Nutzer-Test)
+- [x] **10.3** Manueller Walkthrough mit echten Dokumenten (Playwright MCP, GPT-4.1 live)
 - [x] **10.4** Teilbare URL: https://doc-summary-production.up.railway.app

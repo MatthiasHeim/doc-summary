@@ -4,7 +4,7 @@ import { join } from "path";
 import {
   extractText,
   extractTextFromPDF,
-  extractTextFromWord,
+  extractTextFromDocx,
 } from "@/lib/extract";
 
 const TEST_DATA_DIR = join(process.cwd(), "test_data");
@@ -36,12 +36,12 @@ describe("extractTextFromPDF", () => {
   });
 });
 
-describe("extractTextFromWord", () => {
+describe("extractTextFromDocx", () => {
   it("should extract text from a .docx file", async () => {
     const buffer = readFileSync(
       join(TEST_DATA_DIR, "Preprod Geiselweid.docx")
     );
-    const text = await extractTextFromWord(buffer);
+    const text = await extractTextFromDocx(buffer);
 
     expect(text).toBeTruthy();
     expect(text.length).toBeGreaterThan(50);
@@ -51,7 +51,7 @@ describe("extractTextFromWord", () => {
     const buffer = readFileSync(
       join(TEST_DATA_DIR, "Preprod Dinkelacker .docx")
     );
-    const text = await extractTextFromWord(buffer);
+    const text = await extractTextFromDocx(buffer);
 
     expect(text).toBeTruthy();
     expect(text.length).toBeGreaterThan(50);

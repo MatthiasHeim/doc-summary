@@ -1,5 +1,7 @@
 import { PDFParse } from "pdf-parse";
 import mammoth from "mammoth";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const WordExtractor = require("word-extractor");
 
 interface PDFTextResult {
   pages: { text: string }[];
@@ -38,17 +40,20 @@ export async function extractTextFromPDF(
 }
 
 /**
- * Extract text content from a Word (.doc/.docx) buffer using mammoth.
+ * Extract text content from a .docx buffer using mammoth.
  */
-export async function extractTextFromWord(buffer: Buffer): Promise<string> {
-  try {
-    const result = await mammoth.extractRawText({ buffer });
-    return result.value.trim();
-  } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Unbekannter Fehler";
-    throw new Error(`Word-Extraktion fehlgeschlagen: ${message}`);
-  }
+export async function extractTextFromDocx(buffer: Buffer): Promise<string> {
+  const result = await mammoth.extractRawText({ buffer });
+  return result.value.trim();
+}
+
+/**
+ * Extract text content from a legacy .doc buffer using word-extractor.
+ */
+export async function extractTextFromDoc(buffer: Buffer): Promise<string> {
+  const extractor = new WordExtractor();
+  const doc = await extractor.extract(buffer);
+  return doc.getBody().trim();
 }
 
 /**
@@ -66,9 +71,13 @@ export async function extractText(
     case "pdf": {
       return extractTextFromPDF(buffer);
     }
-    case "docx":
+    case "docx": {
+      const text = await extractTextFromDocx(buffer);
+      const pageCount = Math.max(1, Math.ceil(text.length / 3000));
+      return { text, pageCount };
+    }
     case "doc": {
-      const text = await extractTextFromWord(buffer);
+      const text = await extractTextFromDoc(buffer);
       // Rough estimate for Word documents: ~3000 chars per page
       const pageCount = Math.max(1, Math.ceil(text.length / 3000));
       return { text, pageCount };
