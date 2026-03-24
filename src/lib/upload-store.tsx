@@ -254,13 +254,18 @@ export function UploadStoreProvider({ children }: { children: ReactNode }) {
       // --- Phase 2: Analyze extracted texts ---
       dispatch({ type: "SET_PROCESSING_STAGE", payload: "analyzing" });
 
+      // Truncate texts client-side to keep the request payload manageable
+      const maxPerDoc = Math.floor(60000 / extractData.results.length);
       const analyzeRes = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           documents: extractData.results.map((r) => ({
             filename: r.filename,
-            text: r.text,
+            text:
+              r.text.length > maxPerDoc
+                ? r.text.slice(0, maxPerDoc) + "\n[... Text gekürzt ...]"
+                : r.text,
           })),
         }),
       });

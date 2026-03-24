@@ -100,11 +100,22 @@ ZUSÄTZLICHE ANWEISUNGEN:
 // Allow up to 5 minutes for GPT-4.1 analysis of large documents
 export const maxDuration = 300;
 
-// Truncate text to ~12k words to stay within token limits
-function truncateText(text: string, maxWords = 12000): string {
-  const words = text.split(/\s+/);
-  if (words.length <= maxWords) return text;
-  return words.slice(0, maxWords).join(" ") + "\n[... Text gekürzt ...]";
+// Truncate per-document text and total across all documents
+function truncateText(text: string, maxChars = 15000): string {
+  if (text.length <= maxChars) return text;
+  return text.slice(0, maxChars) + "\n[... Text gekürzt ...]";
+}
+
+function truncateDocuments(
+  documents: { filename: string; text: string }[]
+): { filename: string; text: string }[] {
+  // Target ~60k total chars across all docs to stay well within GPT-4.1 context
+  const maxTotalChars = 60000;
+  const maxPerDoc = Math.floor(maxTotalChars / documents.length);
+  return documents.map((doc) => ({
+    filename: doc.filename,
+    text: truncateText(doc.text, Math.max(5000, maxPerDoc)),
+  }));
 }
 
 export async function POST(request: NextRequest) {
@@ -121,11 +132,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Build user message with all documents (truncated to stay within token limits)
-    const documentTexts = documents
+    // Truncate documents to fit within token limits
+    const truncatedDocs = truncateDocuments(documents);
+
+    // Build user message with all documents
+    const documentTexts = truncatedDocs
       .map(
         (doc, index) =>
-          `--- DOKUMENT ${index + 1}: ${doc.filename} ---\n${truncateText(doc.text)}\n--- ENDE DOKUMENT ${index + 1} ---`
+          `--- DOKUMENT ${index + 1}: ${doc.filename} ---\n${doc.text}\n--- ENDE DOKUMENT ${index + 1} ---`
       )
       .join("\n\n");
 
