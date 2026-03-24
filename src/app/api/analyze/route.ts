@@ -97,6 +97,16 @@ ZUSÄTZLICHE ANWEISUNGEN:
 - Wenn der Patient nicht eindeutig identifizierbar ist (z.B. verschiedene Namen in verschiedenen Dokumenten), verwende den am häufigsten vorkommenden Namen und vermerke dies in der Zusammenfassung.
 - Die executive_summary soll für einen Hausarzt geschrieben sein, der den Patienten übernimmt.`;
 
+// Allow up to 5 minutes for GPT-4.1 analysis of large documents
+export const maxDuration = 300;
+
+// Truncate text to ~12k words to stay within token limits
+function truncateText(text: string, maxWords = 12000): string {
+  const words = text.split(/\s+/);
+  if (words.length <= maxWords) return text;
+  return words.slice(0, maxWords).join(" ") + "\n[... Text gekürzt ...]";
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -111,11 +121,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Build user message with all documents
+    // Build user message with all documents (truncated to stay within token limits)
     const documentTexts = documents
       .map(
         (doc, index) =>
-          `--- DOKUMENT ${index + 1}: ${doc.filename} ---\n${doc.text}\n--- ENDE DOKUMENT ${index + 1} ---`
+          `--- DOKUMENT ${index + 1}: ${doc.filename} ---\n${truncateText(doc.text)}\n--- ENDE DOKUMENT ${index + 1} ---`
       )
       .join("\n\n");
 
@@ -149,7 +159,8 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Unbekannter Fehler";
-    console.error("Analyse fehlgeschlagen:", error);
+    const stack = error instanceof Error ? error.stack : undefined;
+    console.error("Analyse fehlgeschlagen:", message, stack);
     return NextResponse.json(
       { error: `Analyse fehlgeschlagen: ${message}` },
       { status: 500 }
