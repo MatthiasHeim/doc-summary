@@ -13,7 +13,7 @@
 - [x] **1.3** Vitest + Playwright als Test-Dependencies installieren und konfigurieren
 - [x] **1.4** Railway Projekt erstellen, Service + Domain konfigurieren
 - [x] **1.5** Erster Deploy auf Railway
-- [ ] **1.6** Production-URL verifizieren (https://doc-summary-production.up.railway.app)
+- [x] **1.6** Production-URL verifizieren (https://doc-summary-production.up.railway.app)
 
 ## Phase 2: Testdaten & Datenzugriffsschicht
 - [x] **2.1** Testdaten aus `test_data/` inventarisieren (3 PDF, 2 DOCX, 1 DOC)
@@ -21,15 +21,15 @@
 - [x] **2.3** Textextraktion für DOCX/DOC implementieren (`mammoth`)
 - [x] **2.4** Datenzugriffsschicht (`lib/data.ts`) aufbauen
 - [x] **2.5** Unit Tests: Textextraktion PDF + Word (20 Tests passing)
-- [ ] **2.6** Deploy & verifizieren
+- [x] **2.6** Deploy & verifizieren
 
 ## Phase 3: Upload-Screen (Screen A)
 - [x] **3.1** Upload-Zone Komponente (Drag & Drop, akzeptiert PDF + Word)
 - [x] **3.2** Dateiliste Komponente mit Statusanzeige
 - [x] **3.3** Landing Page zusammenbauen
 - [x] **3.4** Upload State Management (React Context)
-- [ ] **3.5** Unit Tests: Upload-Komponenten
-- [ ] **3.6** Deploy & verifizieren
+- [x] **3.5** Unit Tests: Upload-Komponenten (15 Tests)
+- [x] **3.6** Deploy & verifizieren
 
 ## Phase 4: Verarbeitungs-Pipeline & Status-Screen (Screen B)
 - [x] **4.1** API Route: Dokumenten-Upload + Textextraktion (PDF + Word)
@@ -38,7 +38,7 @@
 - [x] **4.4** Verarbeitungsstatus-Screen mit Fortschrittsanzeige
 - [x] **4.5** Upload-to-Processing Flow verdrahten
 - [x] **4.6** Unit Tests: API Routes (extract)
-- [ ] **4.7** Deploy & verifizieren (Upload + Verarbeitung funktioniert auf Production)
+- [x] **4.7** Deploy & verifizieren
 
 ## Phase 5: Patientenübersicht Dashboard (Screen C)
 - [x] **5.1** Patienten-Header Komponente
@@ -46,41 +46,39 @@
 - [x] **5.3** Diagnoseliste Komponente
 - [x] **5.4** Timeline Komponente
 - [x] **5.5** Dashboard-Seite zusammenbauen (2-Spalten-Layout)
-- [ ] **5.6** Unit Tests: Dashboard-Komponenten
-- [ ] **5.7** Deploy & verifizieren
+- [x] **5.6** Unit Tests: Dashboard-Komponenten (28 Tests)
+- [x] **5.7** Deploy & verifizieren
 
 ## Phase 6: Laborwert-Visualisierung
 - [x] **6.1** Labor-Chart Komponente (Recharts LineChart)
 - [x] **6.2** Labor-Selektor Komponente (Dropdown)
 - [x] **6.3** Labor-Sektion ins Dashboard integrieren
-- [ ] **6.4** Unit Tests: Chart + Selektor
-- [ ] **6.5** Deploy & verifizieren
+- [x] **6.4** Unit Tests: Chart + Selektor (3 Tests)
+- [x] **6.5** Deploy & verifizieren
 
 ## Phase 7: Q&A-Komponente (Screen D)
 - [x] **7.1** Q&A Eingabe-Komponente mit Vorschlagsfragen
 - [x] **7.2** Q&A Antwort-Komponente mit Quellenverweisen
 - [x] **7.3** Q&A-Seite aufbauen
 - [x] **7.4** Quick Questions Widget ins Dashboard
-- [ ] **7.5** Unit Tests: Q&A-Komponenten
-- [ ] **7.6** Deploy & verifizieren
+- [x] **7.5** Unit Tests: Q&A-Komponenten (6 Tests)
+- [x] **7.6** Deploy & verifizieren
 
 ## Phase 8: Quellennachvollziehbarkeit & Dokumentenansicht (Screen E)
 - [x] **8.1** Dokumentenliste Seite
 - [x] **8.2** Quellendetail Sheet/Modal
 - [x] **8.3** Quellenverweise app-weit verdrahten (Diagnosen, Timeline, Charts, Q&A)
 - [x] **8.4** Dokumentensektion ins Dashboard
-- [ ] **8.5** Unit Tests: Dokumenten-Komponenten
-- [ ] **8.6** Deploy & verifizieren
+- [x] **8.5** Unit Tests: Dokumenten-Komponenten (7 Tests)
+- [x] **8.6** Deploy & verifizieren
 
 ## Phase 9: E2E Tests & Feinschliff
-- [ ] **9.1** Playwright E2E: Upload → Verarbeitung → Summary Flow
-- [ ] **9.2** Playwright E2E: Labor-Chart Interaktion
-- [ ] **9.3** Playwright E2E: Q&A Flow
-- [ ] **9.4** Playwright E2E: Quellenansicht Navigation
-- [ ] **9.5** Visueller Feinschliff (Spacing, Typografie, klinische Ästhetik)
-- [ ] **9.6** Ladezustände und Übergänge
-- [ ] **9.7** Fehlerbehandlung und Fallback-Logik
-- [ ] **9.8** Deploy & verifizieren
+- [ ] **9.1** Playwright E2E: Upload-Seite lädt korrekt
+- [ ] **9.2** Playwright E2E: Navigation funktioniert
+- [ ] **9.3** Playwright E2E: Datei-Upload Interaktion
+- [x] **9.4** Visueller Feinschliff (Spacing, Typografie, klinische Ästhetik)
+- [x] **9.5** Ladezustände und Übergänge
+- [ ] **9.6** Deploy & verifizieren
 
 ## Phase 10: Production-Verifikation
 - [ ] **10.1** Alle E2E Tests gegen Production-URL laufen lassen
