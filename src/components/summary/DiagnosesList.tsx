@@ -9,19 +9,8 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useSourceSheet } from "@/lib/source-sheet-store";
+import { formatDate } from "@/lib/utils";
 import type { Diagnosis } from "@/types/patient";
-
-function formatDate(dateStr: string): string {
-  try {
-    return new Date(dateStr).toLocaleDateString("de-CH", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-  } catch {
-    return dateStr;
-  }
-}
 
 const statusConfig: Record<
   Diagnosis["status"],

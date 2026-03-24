@@ -1,0 +1,9 @@
+[    2213ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://doc-summary-production.up.railway.app/favicon.ico:0
+[   64768ms] [WARNING] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. @ https://doc-summary-production.up.railway.app/_next/static/chunks/0-tmm.uewd.5v.js:0
+[  160384ms] [WARNING] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width. @ https://doc-summary-production.up.railway.app/_next/static/chunks/0-tmm.uewd.5v.js:0

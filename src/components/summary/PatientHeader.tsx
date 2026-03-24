@@ -1,19 +1,8 @@
 "use client";
 
 import { User, Calendar, FileText } from "lucide-react";
+import { formatDate } from "@/lib/utils";
 import type { Patient } from "@/types/patient";
-
-function formatDate(dateStr: string): string {
-  try {
-    return new Date(dateStr).toLocaleDateString("de-CH", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-  } catch {
-    return dateStr;
-  }
-}
 
 interface PatientHeaderProps {
   patient: Patient;

@@ -9,31 +9,8 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
+import { formatDate, formatDateLong, safeDateSort } from "@/lib/utils";
 import type { LabParameter } from "@/types/patient";
-
-function formatDateShort(dateStr: string): string {
-  try {
-    return new Date(dateStr).toLocaleDateString("de-CH", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "2-digit",
-    });
-  } catch {
-    return dateStr;
-  }
-}
-
-function formatDateFull(dateStr: string): string {
-  try {
-    return new Date(dateStr).toLocaleDateString("de-CH", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
-  } catch {
-    return dateStr;
-  }
-}
 
 interface LabChartProps {
   parameter: LabParameter;
@@ -47,12 +24,12 @@ interface ChartDataPoint {
 }
 
 export function LabChart({ parameter }: LabChartProps) {
-  const sorted = [...parameter.values].sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  const sorted = [...parameter.values].sort((a, b) =>
+    safeDateSort(a.date, b.date)
   );
 
   const data: ChartDataPoint[] = sorted.map((v) => ({
-    date: formatDateShort(v.date),
+    date: formatDate(v.date, { day: "2-digit", month: "2-digit", year: "2-digit" }),
     rawDate: v.date,
     value: v.value,
     source: v.source_label,
@@ -107,7 +84,7 @@ export function LabChart({ parameter }: LabChartProps) {
               return (
                 <div className="rounded-lg border border-[var(--border)] bg-white px-3.5 py-2.5 shadow-lg">
                   <p className="text-xs font-medium text-[var(--muted-foreground)]">
-                    {formatDateFull(d.rawDate)}
+                    {formatDateLong(d.rawDate)}
                   </p>
                   <p className="mt-1 text-base font-bold tabular-nums text-[var(--primary)]">
                     {d.value} {parameter.unit}

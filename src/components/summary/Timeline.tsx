@@ -16,19 +16,8 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useSourceSheet } from "@/lib/source-sheet-store";
+import { formatDateLong, safeDateSort } from "@/lib/utils";
 import type { MedicalEvent } from "@/types/patient";
-
-function formatDate(dateStr: string): string {
-  try {
-    return new Date(dateStr).toLocaleDateString("de-CH", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
-  } catch {
-    return dateStr;
-  }
-}
 
 const categoryConfig: Record<
   MedicalEvent["category"],
@@ -51,9 +40,7 @@ export function Timeline({ events }: TimelineProps) {
 
   if (events.length === 0) return null;
 
-  const sorted = [...events].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+  const sorted = [...events].sort((a, b) => safeDateSort(b.date, a.date));
 
   return (
     <Card>
@@ -95,7 +82,7 @@ export function Timeline({ events }: TimelineProps) {
                         {event.title}
                       </h4>
                       <span className="shrink-0 rounded-md bg-[var(--secondary)] px-2 py-0.5 text-xs tabular-nums text-[var(--muted-foreground)]">
-                        {formatDate(event.date)}
+                        {formatDateLong(event.date)}
                       </span>
                     </div>
                     <p className="mt-1 text-sm leading-relaxed text-[var(--muted-foreground)]">
