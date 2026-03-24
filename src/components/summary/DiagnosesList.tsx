@@ -51,24 +51,24 @@ export function DiagnosesList({ diagnoses }: DiagnosesListProps) {
   if (diagnoses.length === 0) return null;
 
   return (
-    <Card>
+    <Card className="overflow-hidden">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2">
           <Stethoscope className="h-5 w-5 text-[var(--primary)]" />
           Diagnosen
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-0 pb-0">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[var(--border)] text-left text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)]">
-                <th className="pb-2 pr-4">Diagnose</th>
-                <th className="pb-2 pr-4">Datum</th>
-                <th className="pb-2 pr-4">Status</th>
-                <th className="pb-2 pr-4">Konfidenz</th>
-                <th className="pb-2 pr-4">Arzt</th>
-                <th className="pb-2">Quelle</th>
+              <tr className="border-y border-[var(--border)] bg-[var(--secondary)]/60 text-left text-[11px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
+                <th className="px-6 py-2.5">Diagnose</th>
+                <th className="px-4 py-2.5">Datum</th>
+                <th className="px-4 py-2.5">Status</th>
+                <th className="px-4 py-2.5">Konfidenz</th>
+                <th className="px-4 py-2.5">Arzt</th>
+                <th className="px-4 py-2.5">Quelle</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[var(--border)]">
@@ -78,17 +78,19 @@ export function DiagnosesList({ diagnoses }: DiagnosesListProps) {
                 return (
                   <tr
                     key={i}
-                    className="cursor-pointer transition-colors hover:bg-[var(--secondary)]"
+                    className="cursor-pointer transition-colors hover:bg-[var(--accent)]/40"
                     onClick={() => openSource(d.source_document_id)}
                   >
-                    <td className="py-2.5 pr-4 font-medium">{d.label}</td>
-                    <td className="py-2.5 pr-4 text-[var(--muted-foreground)]">
+                    <td className="px-6 py-3 font-medium text-[var(--foreground)]">
+                      {d.label}
+                    </td>
+                    <td className="px-4 py-3 tabular-nums text-[var(--muted-foreground)]">
                       {formatDate(d.date)}
                     </td>
-                    <td className="py-2.5 pr-4">
+                    <td className="px-4 py-3">
                       <Badge variant={status.variant}>{status.label}</Badge>
                     </td>
-                    <td className="py-2.5 pr-4">
+                    <td className="px-4 py-3">
                       <span
                         className="flex items-center gap-1"
                         title={conf.label}
@@ -96,7 +98,7 @@ export function DiagnosesList({ diagnoses }: DiagnosesListProps) {
                         {[1, 2, 3].map((dot) => (
                           <span
                             key={dot}
-                            className={`h-2 w-2 rounded-full ${
+                            className={`h-2 w-2 rounded-full transition-colors ${
                               dot <= conf.dots
                                 ? "bg-[var(--primary)]"
                                 : "bg-[var(--border)]"
@@ -105,11 +107,11 @@ export function DiagnosesList({ diagnoses }: DiagnosesListProps) {
                         ))}
                       </span>
                     </td>
-                    <td className="py-2.5 pr-4 text-[var(--muted-foreground)]">
+                    <td className="px-4 py-3 text-[var(--muted-foreground)]">
                       {d.diagnosed_by}
                     </td>
-                    <td className="py-2.5">
-                      <Badge variant="outline" className="text-xs">
+                    <td className="px-4 py-3">
+                      <Badge variant="outline" className="text-xs font-normal">
                         {d.source_label}
                       </Badge>
                     </td>

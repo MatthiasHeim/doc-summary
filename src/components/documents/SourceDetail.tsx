@@ -44,7 +44,7 @@ export function SourceDetail() {
     <Sheet open={!!sourceDocId} onOpenChange={(open) => !open && closeSource()}>
       <SheetContent side="right" className="overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>{doc?.title ?? "Dokument"}</SheetTitle>
+          <SheetTitle className="text-lg">{doc?.title ?? "Dokument"}</SheetTitle>
           <SheetDescription>
             Quelldokument-Details und extrahierter Text
           </SheetDescription>
@@ -54,35 +54,37 @@ export function SourceDetail() {
           <div className="mt-6 space-y-6">
             {/* Metadata grid */}
             <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)]">
+              <div className="rounded-lg bg-[var(--secondary)] p-3">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
                   Datum
                 </p>
-                <p className="mt-1 text-sm text-[var(--foreground)]">
+                <p className="mt-1 text-sm font-medium text-[var(--foreground)]">
                   {formatDate(doc.date)}
                 </p>
               </div>
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)]">
+              <div className="rounded-lg bg-[var(--secondary)] p-3">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
                   Typ
                 </p>
                 <div className="mt-1">
-                  <Badge variant="secondary">{typeLabels[doc.type]}</Badge>
+                  <Badge variant="secondary" className="text-xs">
+                    {typeLabels[doc.type]}
+                  </Badge>
                 </div>
               </div>
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)]">
+              <div className="rounded-lg bg-[var(--secondary)] p-3">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
                   Herkunft
                 </p>
-                <p className="mt-1 text-sm text-[var(--foreground)]">
+                <p className="mt-1 text-sm font-medium text-[var(--foreground)]">
                   {doc.origin}
                 </p>
               </div>
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)]">
+              <div className="rounded-lg bg-[var(--secondary)] p-3">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
                   Seiten
                 </p>
-                <p className="mt-1 text-sm text-[var(--foreground)]">
+                <p className="mt-1 text-sm font-medium text-[var(--foreground)]">
                   {doc.pages}
                 </p>
               </div>
@@ -93,10 +95,10 @@ export function SourceDetail() {
 
             {/* Extracted text */}
             <div>
-              <p className="mb-2 text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)]">
+              <p className="mb-2.5 text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
                 Extrahierter Text
               </p>
-              <div className="rounded-md border border-[var(--border)] bg-[var(--secondary)] p-4">
+              <div className="rounded-lg border border-[var(--border)] bg-[var(--secondary)]/50 p-4">
                 <p className="whitespace-pre-wrap text-sm leading-relaxed text-[var(--foreground)]">
                   {doc.text_excerpt}
                 </p>

@@ -16,7 +16,7 @@ function getFileIcon(name: string) {
   if (ext === "pdf") {
     return <FileText className="h-5 w-5 text-red-500" />;
   }
-  return <File className="h-5 w-5 text-blue-500" />;
+  return <File className="h-5 w-5 text-[var(--primary-light)]" />;
 }
 
 function statusBadge(status: FileStatus) {
@@ -70,7 +70,7 @@ export function FileList({ readonly = false }: FileListProps) {
       {files.map((f: UploadFile) => (
         <div
           key={f.id}
-          className="flex items-center gap-3 rounded-lg border border-[var(--border)] bg-white px-4 py-3 transition-colors hover:bg-[var(--secondary)]/30"
+          className="flex items-center gap-3 rounded-lg border border-[var(--border)] bg-white px-4 py-3 shadow-sm transition-all hover:shadow-md animate-fade-in"
         >
           {getFileIcon(f.file.name)}
 

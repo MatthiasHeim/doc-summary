@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { Upload } from "lucide-react";
+import { Upload, FileUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUploadStore } from "@/lib/upload-store";
 
@@ -36,11 +36,11 @@ export function UploadZone() {
     <div
       {...getRootProps()}
       className={cn(
-        "relative flex flex-col items-center justify-center gap-4 rounded-xl border-2 border-dashed px-8 py-14 transition-all cursor-pointer",
-        "bg-white hover:bg-blue-50/40",
+        "relative flex flex-col items-center justify-center gap-4 rounded-xl border-2 border-dashed px-8 py-16 transition-all duration-200 cursor-pointer",
+        "bg-white hover:bg-[var(--accent)]/30",
         isDragActive
-          ? "border-[var(--primary)] bg-blue-50/60 scale-[1.01]"
-          : "border-[var(--border)] hover:border-[var(--primary)]/50",
+          ? "border-[var(--primary-light)] bg-[var(--accent)] scale-[1.015] shadow-lg shadow-[var(--primary)]/5"
+          : "border-[var(--border)] hover:border-[var(--primary-light)]/40",
         isProcessing && "pointer-events-none opacity-50"
       )}
     >
@@ -48,29 +48,44 @@ export function UploadZone() {
 
       <div
         className={cn(
-          "flex h-14 w-14 items-center justify-center rounded-full transition-colors",
+          "flex h-14 w-14 items-center justify-center rounded-full transition-all duration-200",
           isDragActive
-            ? "bg-[var(--primary)] text-white"
-            : "bg-blue-50 text-[var(--primary)]"
+            ? "bg-[var(--primary)] text-white scale-110"
+            : "bg-[var(--accent)] text-[var(--primary)]"
         )}
       >
-        <Upload className="h-6 w-6" />
+        {isDragActive ? (
+          <FileUp className="h-6 w-6" />
+        ) : (
+          <Upload className="h-6 w-6" />
+        )}
       </div>
 
       <div className="text-center">
-        <p className="text-base font-medium text-[var(--foreground)]">
+        <p className="text-[15px] font-medium text-[var(--foreground)]">
           {isDragActive
             ? "Dateien hier ablegen"
             : "Dokumente hierher ziehen"}
         </p>
-        <p className="mt-1 text-sm text-[var(--muted-foreground)]">
-          oder Dateien auswählen
+        <p className="mt-1.5 text-sm text-[var(--muted-foreground)]">
+          oder{" "}
+          <span className="font-medium text-[var(--primary-light)] underline underline-offset-2">
+            Dateien auswählen
+          </span>
         </p>
       </div>
 
-      <p className="text-xs text-[var(--muted-foreground)]">
-        PDF, DOCX oder DOC
-      </p>
+      <div className="flex items-center gap-3 mt-1">
+        <span className="inline-flex items-center rounded-md bg-[var(--secondary)] px-2 py-0.5 text-[11px] font-medium text-[var(--muted-foreground)]">
+          PDF
+        </span>
+        <span className="inline-flex items-center rounded-md bg-[var(--secondary)] px-2 py-0.5 text-[11px] font-medium text-[var(--muted-foreground)]">
+          DOCX
+        </span>
+        <span className="inline-flex items-center rounded-md bg-[var(--secondary)] px-2 py-0.5 text-[11px] font-medium text-[var(--muted-foreground)]">
+          DOC
+        </span>
+      </div>
     </div>
   );
 }

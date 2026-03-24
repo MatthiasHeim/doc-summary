@@ -2,9 +2,8 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, CheckCircle, AlertCircle, FileText } from "lucide-react";
+import { Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { useUploadStore, type ProcessingStage } from "@/lib/upload-store";
 import { FileList } from "@/components/upload/FileList";
@@ -23,17 +22,17 @@ const STAGE_MAP: Record<ProcessingStage, StageInfo> = {
   idle: { label: "Vorbereitung", description: "Dateien werden vorbereitet...", progress: 0 },
   extracting: {
     label: "Extraktion",
-    description: "Texte werden extrahiert...",
+    description: "Texte werden aus den Dokumenten extrahiert...",
     progress: 35,
   },
   analyzing: {
     label: "Analyse",
-    description: "Dokumente werden analysiert...",
+    description: "Dokumente werden mit KI analysiert...",
     progress: 70,
   },
   complete: {
     label: "Fertig",
-    description: "Übersicht wird erstellt...",
+    description: "Ihre Patientenübersicht ist bereit.",
     progress: 100,
   },
   error: { label: "Fehler", description: "Ein Fehler ist aufgetreten.", progress: 0 },
@@ -75,7 +74,7 @@ export default function ProcessingPage() {
 
   return (
     <main className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-2xl flex-col items-center justify-center px-6 py-16">
-      <Card className="w-full">
+      <Card className="w-full shadow-md">
         <CardContent className="space-y-8 p-8">
           {/* Header */}
           <div className="flex flex-col items-center gap-4 text-center">
@@ -84,11 +83,11 @@ export default function ProcessingPage() {
                 <AlertCircle className="h-7 w-7" />
               </div>
             ) : processingStage === "complete" ? (
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 animate-fade-in">
                 <CheckCircle className="h-7 w-7" />
               </div>
             ) : (
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-50 text-[var(--primary)]">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--accent)] text-[var(--primary)]">
                 <Loader2 className="h-7 w-7 animate-spin" />
               </div>
             )}
@@ -97,7 +96,7 @@ export default function ProcessingPage() {
               <h1 className="text-xl font-semibold text-[var(--foreground)]">
                 {stage.label}
               </h1>
-              <p className="mt-1 text-sm text-[var(--muted-foreground)]">
+              <p className="mt-1.5 text-sm text-[var(--muted-foreground)]">
                 {stage.description}
               </p>
             </div>
@@ -106,8 +105,21 @@ export default function ProcessingPage() {
           {/* Progress bar */}
           {!isError && (
             <div className="space-y-2">
-              <Progress value={stage.progress} className="h-2.5" />
-              <p className="text-right text-xs text-[var(--muted-foreground)]">
+              <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-[var(--secondary)]">
+                <div
+                  className="h-full rounded-full bg-[var(--primary)] transition-all duration-700 ease-out"
+                  style={{ width: `${stage.progress}%` }}
+                />
+                {processingStage !== "complete" && (
+                  <div className="absolute inset-0 overflow-hidden rounded-full">
+                    <div
+                      className="h-full w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent"
+                      style={{ animation: "progress-shimmer 2s ease-in-out infinite" }}
+                    />
+                  </div>
+                )}
+              </div>
+              <p className="text-right text-xs tabular-nums text-[var(--muted-foreground)]">
                 {stage.progress}%
               </p>
             </div>
@@ -122,31 +134,36 @@ export default function ProcessingPage() {
 
           {/* Steps indicator */}
           {!isError && (
-            <div className="space-y-3">
+            <div className="space-y-0">
               <StepRow
                 label="Texte extrahieren"
+                description="OCR und Textextraktion"
                 active={processingStage === "extracting"}
                 done={
                   processingStage === "analyzing" ||
                   processingStage === "complete"
                 }
+                isFirst
               />
               <StepRow
                 label="Dokumente analysieren"
+                description="KI-gestützte Inhaltsanalyse"
                 active={processingStage === "analyzing"}
                 done={processingStage === "complete"}
               />
               <StepRow
                 label="Übersicht erstellen"
+                description="Strukturierte Zusammenfassung"
                 active={false}
                 done={processingStage === "complete"}
+                isLast
               />
             </div>
           )}
 
           {/* Per-file status */}
           <div>
-            <p className="mb-2 text-sm font-medium text-[var(--foreground)]">
+            <p className="mb-3 text-sm font-medium text-[var(--foreground)]">
               Dateien ({files.length})
             </p>
             <FileList readonly />
@@ -172,33 +189,58 @@ export default function ProcessingPage() {
 
 function StepRow({
   label,
+  description,
   active,
   done,
+  isFirst,
+  isLast,
 }: {
   label: string;
+  description: string;
   active: boolean;
   done: boolean;
+  isFirst?: boolean;
+  isLast?: boolean;
 }) {
   return (
-    <div className="flex items-center gap-3">
-      {done ? (
-        <CheckCircle className="h-5 w-5 text-emerald-500" />
-      ) : active ? (
-        <Loader2 className="h-5 w-5 animate-spin text-[var(--primary)]" />
-      ) : (
-        <div className="h-5 w-5 rounded-full border-2 border-[var(--border)]" />
+    <div className="flex items-start gap-3.5 relative">
+      {/* Vertical connecting line */}
+      {!isLast && (
+        <div className="absolute left-[11px] top-[28px] bottom-0 w-px bg-[var(--border)]" />
       )}
-      <span
-        className={
-          done
-            ? "text-sm text-emerald-700"
-            : active
-              ? "text-sm font-medium text-[var(--foreground)]"
-              : "text-sm text-[var(--muted-foreground)]"
-        }
-      >
-        {label}
-      </span>
+
+      {/* Status icon */}
+      <div className="relative z-10 mt-0.5">
+        {done ? (
+          <div className="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-emerald-500 text-white">
+            <CheckCircle className="h-3.5 w-3.5" />
+          </div>
+        ) : active ? (
+          <div className="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-[var(--primary)] text-white">
+            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+          </div>
+        ) : (
+          <div className="flex h-[22px] w-[22px] items-center justify-center rounded-full border-2 border-[var(--border)] bg-white" />
+        )}
+      </div>
+
+      {/* Text */}
+      <div className={`pb-5 ${isLast ? "pb-0" : ""}`}>
+        <span
+          className={
+            done
+              ? "text-sm font-medium text-emerald-700"
+              : active
+                ? "text-sm font-semibold text-[var(--foreground)]"
+                : "text-sm text-[var(--muted-foreground)]"
+          }
+        >
+          {label}
+        </span>
+        <p className={`text-xs mt-0.5 ${done ? "text-emerald-600/70" : active ? "text-[var(--muted-foreground)]" : "text-[var(--border)]"}`}>
+          {description}
+        </p>
+      </div>
     </div>
   );
 }

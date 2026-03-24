@@ -19,35 +19,38 @@ export function NavHeader() {
     : [];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-white/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-white/90 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
         <Link
           href="/"
-          className="flex items-center gap-2.5 text-[var(--foreground)]"
+          className="flex items-center gap-2.5 text-[var(--foreground)] transition-opacity hover:opacity-80"
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--primary)] text-white">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--primary)] text-white shadow-sm">
             <FileText className="h-4 w-4" />
           </div>
-          <span className="text-base font-semibold tracking-tight">
+          <span className="text-[15px] font-semibold tracking-tight">
             Patientenübersicht
           </span>
         </Link>
 
         {navItems.length > 0 && (
-          <nav className="flex items-center gap-4 text-sm">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={
-                  pathname === item.href
-                    ? "font-medium text-[var(--primary)]"
-                    : "text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)]"
-                }
-              >
-                {item.label}
-              </Link>
-            ))}
+          <nav className="flex items-center gap-1 text-sm">
+            {navItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={
+                    isActive
+                      ? "rounded-md bg-[var(--accent)] px-3.5 py-1.5 font-medium text-[var(--primary)] transition-all"
+                      : "rounded-md px-3.5 py-1.5 text-[var(--muted-foreground)] transition-all hover:bg-[var(--secondary)] hover:text-[var(--foreground)]"
+                  }
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
         )}
       </div>

@@ -73,17 +73,22 @@ export function LabChart({ parameter }: LabChartProps) {
           data={data}
           margin={{ top: 8, right: 12, left: 0, bottom: 4 }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+          <CartesianGrid
+            strokeDasharray="3 3"
+            stroke="var(--border)"
+            strokeOpacity={0.6}
+            vertical={false}
+          />
           <XAxis
             dataKey="date"
             tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
             tickLine={false}
-            axisLine={{ stroke: "var(--border)" }}
+            axisLine={{ stroke: "var(--border)", strokeWidth: 1 }}
           />
           <YAxis
             tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
             tickLine={false}
-            axisLine={{ stroke: "var(--border)" }}
+            axisLine={false}
             label={{
               value: parameter.unit,
               angle: -90,
@@ -100,11 +105,11 @@ export function LabChart({ parameter }: LabChartProps) {
               if (!active || !payload?.length) return null;
               const d = payload[0].payload as ChartDataPoint;
               return (
-                <div className="rounded-md border border-[var(--border)] bg-[var(--card)] px-3 py-2 shadow-md">
-                  <p className="text-xs font-medium text-[var(--foreground)]">
+                <div className="rounded-lg border border-[var(--border)] bg-white px-3.5 py-2.5 shadow-lg">
+                  <p className="text-xs font-medium text-[var(--muted-foreground)]">
                     {formatDateFull(d.rawDate)}
                   </p>
-                  <p className="mt-1 text-sm font-bold text-[var(--primary)]">
+                  <p className="mt-1 text-base font-bold tabular-nums text-[var(--primary)]">
                     {d.value} {parameter.unit}
                   </p>
                   <p className="mt-0.5 text-xs text-[var(--muted-foreground)]">
@@ -118,18 +123,18 @@ export function LabChart({ parameter }: LabChartProps) {
             type="monotone"
             dataKey="value"
             stroke="var(--primary)"
-            strokeWidth={2}
+            strokeWidth={2.5}
             dot={{
               r: 4,
               fill: "var(--primary)",
-              stroke: "var(--card)",
-              strokeWidth: 2,
+              stroke: "white",
+              strokeWidth: 2.5,
             }}
             activeDot={{
               r: 6,
               fill: "var(--primary)",
-              stroke: "var(--card)",
-              strokeWidth: 2,
+              stroke: "white",
+              strokeWidth: 3,
             }}
           />
         </LineChart>

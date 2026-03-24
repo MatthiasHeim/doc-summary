@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { UploadStoreProvider } from "@/lib/upload-store";
 import { SourceSheetProvider } from "@/lib/source-sheet-store";
 import { NavHeader } from "@/components/NavHeader";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   title: "Patientenübersicht -- KI-gestützte Zusammenfassung",
@@ -16,8 +23,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="de">
-      <body className="min-h-screen antialiased">
+    <html lang="de" className={inter.variable}>
+      <body className={`${inter.className} min-h-screen antialiased`}>
         <UploadStoreProvider>
           <SourceSheetProvider>
             <NavHeader />

@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText } from "lucide-react";
+import { FileText, ChevronRight } from "lucide-react";
 import {
   Card,
   CardHeader,
@@ -44,37 +44,38 @@ export function DocumentsList({ documents }: DocumentsListProps) {
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2">
-          <FileText className="h-5 w-5 text-[var(--primary)]" />
-          Dokumente
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="h-5 w-5 text-[var(--primary)]" />
+            Dokumente
+          </CardTitle>
+          <span className="text-xs text-[var(--muted-foreground)]">
+            {documents.length} Dateien
+          </span>
+        </div>
       </CardHeader>
       <CardContent>
         <ul className="divide-y divide-[var(--border)]">
           {documents.map((doc) => (
             <li
               key={doc.id}
-              className="flex items-center justify-between py-2.5 first:pt-0 last:pb-0"
+              className="group flex items-center justify-between py-3 first:pt-0 last:pb-0 cursor-pointer transition-colors hover:bg-[var(--secondary)]/30 -mx-2 px-2 rounded-md"
+              onClick={() => openSource(doc.id)}
             >
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-[var(--foreground)]">
+                <p className="truncate text-sm font-medium text-[var(--foreground)] group-hover:text-[var(--primary)]">
                   {doc.title}
                 </p>
-                <div className="mt-0.5 flex items-center gap-2">
-                  <span className="text-xs text-[var(--muted-foreground)]">
+                <div className="mt-1 flex items-center gap-2">
+                  <span className="text-xs tabular-nums text-[var(--muted-foreground)]">
                     {formatDate(doc.date)}
                   </span>
-                  <Badge variant="secondary" className="text-xs">
+                  <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
                     {typeLabels[doc.type]}
                   </Badge>
                 </div>
               </div>
-              <button
-                onClick={() => openSource(doc.id)}
-                className="ml-3 shrink-0 rounded-md border border-[var(--border)] px-3 py-1 text-xs font-medium text-[var(--primary)] transition-colors hover:bg-[var(--accent)]"
-              >
-                Anzeigen
-              </button>
+              <ChevronRight className="ml-2 h-4 w-4 shrink-0 text-[var(--muted-foreground)] opacity-0 transition-all group-hover:opacity-100 group-hover:translate-x-0.5" />
             </li>
           ))}
         </ul>

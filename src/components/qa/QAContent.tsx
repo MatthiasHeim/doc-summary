@@ -2,13 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Send, Loader2 } from "lucide-react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
+import { Send, Loader2, Sparkles, MessageCircleQuestion } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useUploadStore } from "@/lib/upload-store";
 import { useSourceSheet } from "@/lib/source-sheet-store";
@@ -126,9 +120,12 @@ export function QAContent() {
   return (
     <div className="min-h-screen bg-[var(--background)]">
       <main className="mx-auto max-w-3xl px-6 py-8 space-y-6">
-        <h1 className="text-lg font-semibold text-[var(--foreground)]">
-          Fragen &amp; Antworten
-        </h1>
+        <div className="flex items-center gap-2.5">
+          <MessageCircleQuestion className="h-5 w-5 text-[var(--primary)]" />
+          <h1 className="text-lg font-semibold text-[var(--foreground)]">
+            Fragen &amp; Antworten
+          </h1>
+        </div>
 
         {/* Quick question chips */}
         <div className="flex flex-wrap gap-2">
@@ -137,7 +134,7 @@ export function QAContent() {
               key={q}
               onClick={() => handleChipClick(q)}
               disabled={loading}
-              className="rounded-full border border-[var(--border)] bg-[var(--secondary)] px-3.5 py-1.5 text-sm text-[var(--secondary-foreground)] transition-colors hover:border-[var(--primary)] hover:bg-[var(--accent)] hover:text-[var(--primary)] disabled:opacity-50"
+              className="rounded-full border border-[var(--border)] bg-[var(--secondary)] px-3.5 py-1.5 text-sm text-[var(--secondary-foreground)] transition-all hover:border-[var(--primary)]/30 hover:bg-[var(--accent)] hover:text-[var(--primary)] hover:shadow-sm disabled:opacity-50"
             >
               {q}
             </button>
@@ -151,13 +148,13 @@ export function QAContent() {
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             placeholder="Stellen Sie eine Frage zu den Patientendokumenten..."
-            className="flex-1 rounded-md border border-[var(--border)] bg-[var(--card)] px-4 py-2.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--ring)]"
+            className="flex-1 rounded-lg border border-[var(--border)] bg-white px-4 py-2.5 text-sm text-[var(--foreground)] shadow-sm placeholder:text-[var(--muted-foreground)] transition-all focus:outline-none focus:ring-2 focus:ring-[var(--ring)] focus:border-transparent"
             disabled={loading}
           />
           <button
             type="submit"
             disabled={loading || !question.trim()}
-            className="inline-flex items-center gap-2 rounded-md bg-[var(--primary)] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[var(--primary)]/90 disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--primary)] px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md disabled:opacity-50"
           >
             {loading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -170,35 +167,39 @@ export function QAContent() {
 
         {/* Error */}
         {error && (
-          <Card className="border-[var(--destructive)]">
-            <CardContent className="py-4">
-              <p className="text-sm text-[var(--destructive)]">{error}</p>
-            </CardContent>
-          </Card>
+          <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-[var(--destructive)]">
+            {error}
+          </div>
         )}
 
         {/* Loading indicator */}
         {loading && (
-          <div className="flex items-center gap-2 py-4 text-sm text-[var(--muted-foreground)]">
+          <div className="flex items-center gap-3 rounded-lg bg-[var(--accent)] px-5 py-4 text-sm text-[var(--primary)] animate-pulse-soft">
             <Loader2 className="h-4 w-4 animate-spin" />
             Antwort wird generiert...
           </div>
         )}
 
-        {/* Answer */}
+        {/* Answer -- chat-like bubble */}
         {result && (
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base">Antwort</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-sm leading-relaxed text-[var(--foreground)] whitespace-pre-wrap">
+          <div className="animate-slide-up space-y-4">
+            {/* Answer bubble */}
+            <div className="rounded-xl border border-[var(--border)] bg-white p-6 shadow-sm">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="flex h-6 w-6 items-center justify-center rounded-md bg-[var(--primary)] text-white">
+                  <Sparkles className="h-3.5 w-3.5" />
+                </div>
+                <span className="text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
+                  Antwort
+                </span>
+              </div>
+              <p className="text-[15px] leading-[1.7] text-[var(--foreground)] whitespace-pre-wrap">
                 {result.answer}
               </p>
 
               {result.sources.length > 0 && (
-                <div>
-                  <p className="mb-2 text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)]">
+                <div className="mt-5 pt-4 border-t border-[var(--border)]">
+                  <p className="mb-2.5 text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
                     Quellen
                   </p>
                   <div className="flex flex-wrap gap-2">
@@ -210,7 +211,7 @@ export function QAContent() {
                           variant="outline"
                           className={
                             docId
-                              ? "cursor-pointer transition-colors hover:bg-[var(--accent)]"
+                              ? "cursor-pointer transition-all hover:bg-[var(--accent)] hover:border-[var(--primary)]/30 hover:shadow-sm"
                               : ""
                           }
                           onClick={() => docId && openSource(docId)}
@@ -222,8 +223,8 @@ export function QAContent() {
                   </div>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         )}
       </main>
 

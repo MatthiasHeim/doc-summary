@@ -26,7 +26,10 @@ export default function SummaryPage() {
   if (!record) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <p className="text-sm text-[var(--muted-foreground)]">Lade...</p>
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-8 w-8 rounded-full border-2 border-[var(--primary)] border-t-transparent animate-spin" />
+          <p className="text-sm text-[var(--muted-foreground)]">Lade...</p>
+        </div>
       </div>
     );
   }
@@ -37,16 +40,16 @@ export default function SummaryPage() {
         {/* Patient header -- full width */}
         <PatientHeader patient={record.patient} />
 
-        {/* Two-column layout */}
+        {/* Two-column layout: 63/37 split */}
         <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
-          {/* Left column */}
+          {/* Left column -- primary content */}
           <div className="space-y-6">
             <ExecutiveSummary summary={record.summary} />
             <DiagnosesList diagnoses={record.diagnoses} />
             <Timeline events={record.events} />
           </div>
 
-          {/* Right column */}
+          {/* Right column -- secondary content */}
           <div className="space-y-6">
             <LabSection labValues={record.lab_values} />
             <QuickQuestions />

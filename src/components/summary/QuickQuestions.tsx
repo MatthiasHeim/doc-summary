@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { MessageCircleQuestion } from "lucide-react";
+import { MessageCircleQuestion, ArrowRight } from "lucide-react";
 import {
   Card,
   CardHeader,
@@ -38,9 +38,10 @@ export function QuickQuestions() {
             <button
               key={q}
               onClick={() => handleClick(q)}
-              className="rounded-full border border-[var(--border)] bg-[var(--secondary)] px-3.5 py-1.5 text-sm text-[var(--secondary-foreground)] transition-colors hover:border-[var(--primary)] hover:bg-[var(--accent)] hover:text-[var(--primary)]"
+              className="group inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--secondary)] px-3.5 py-1.5 text-sm text-[var(--secondary-foreground)] transition-all hover:border-[var(--primary)]/30 hover:bg-[var(--accent)] hover:text-[var(--primary)] hover:shadow-sm"
             >
               {q}
+              <ArrowRight className="h-3 w-3 opacity-0 transition-all group-hover:opacity-100 group-hover:translate-x-0.5" />
             </button>
           ))}
         </div>

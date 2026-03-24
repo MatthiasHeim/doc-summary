@@ -30,10 +30,15 @@ export function LabSection({ labValues }: LabSectionProps) {
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2">
-          <FlaskConical className="h-5 w-5 text-[var(--primary)]" />
-          Laborwerte
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <FlaskConical className="h-5 w-5 text-[var(--primary)]" />
+            Laborwerte
+          </CardTitle>
+          <span className="text-xs text-[var(--muted-foreground)]">
+            {labValues.length} Parameter
+          </span>
+        </div>
       </CardHeader>
       <CardContent className="space-y-4">
         <LabSelector

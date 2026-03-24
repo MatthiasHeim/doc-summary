@@ -67,7 +67,7 @@ export default function DocumentsPage() {
   return (
     <div className="min-h-screen bg-[var(--background)]">
       <main className="mx-auto max-w-5xl px-6 py-8">
-        <div className="mb-4 flex items-center gap-2">
+        <div className="mb-5 flex items-center gap-2.5">
           <FileText className="h-5 w-5 text-[var(--primary)]" />
           <h1 className="text-lg font-semibold text-[var(--foreground)]">
             {documents.length}{" "}
@@ -77,11 +77,11 @@ export default function DocumentsPage() {
           </h1>
         </div>
 
-        <div className="overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--card)]">
+        <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-white shadow-sm">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[var(--border)] bg-[var(--secondary)] text-left text-xs font-medium uppercase tracking-wider text-[var(--muted-foreground)]">
-                <th className="px-4 py-3">Titel</th>
+              <tr className="border-b border-[var(--border)] bg-[var(--secondary)]/60 text-left text-[11px] font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
+                <th className="px-5 py-3">Titel</th>
                 <th className="px-4 py-3">Datum</th>
                 <th className="px-4 py-3">Typ</th>
                 <th className="px-4 py-3">Herkunft</th>
@@ -93,29 +93,29 @@ export default function DocumentsPage() {
               {documents.map((doc) => (
                 <tr
                   key={doc.id}
-                  className="transition-colors hover:bg-[var(--secondary)]"
+                  className="transition-colors hover:bg-[var(--accent)]/30"
                 >
-                  <td className="px-4 py-3 font-medium text-[var(--foreground)]">
+                  <td className="px-5 py-3.5 font-medium text-[var(--foreground)]">
                     {doc.title}
                   </td>
-                  <td className="px-4 py-3 text-[var(--muted-foreground)]">
+                  <td className="px-4 py-3.5 tabular-nums text-[var(--muted-foreground)]">
                     {formatDate(doc.date)}
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3.5">
                     <Badge variant={typeVariants[doc.type]}>
                       {typeLabels[doc.type]}
                     </Badge>
                   </td>
-                  <td className="px-4 py-3 text-[var(--muted-foreground)]">
+                  <td className="px-4 py-3.5 text-[var(--muted-foreground)]">
                     {doc.origin}
                   </td>
-                  <td className="px-4 py-3 text-right text-[var(--muted-foreground)]">
+                  <td className="px-4 py-3.5 text-right tabular-nums text-[var(--muted-foreground)]">
                     {doc.pages}
                   </td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-4 py-3.5 text-right">
                     <button
                       onClick={() => openSource(doc.id)}
-                      className="rounded-md border border-[var(--border)] px-3 py-1 text-xs font-medium text-[var(--primary)] transition-colors hover:bg-[var(--accent)]"
+                      className="rounded-md border border-[var(--border)] bg-white px-3 py-1.5 text-xs font-medium text-[var(--primary)] shadow-sm transition-all hover:bg-[var(--accent)] hover:shadow-md"
                     >
                       Anzeigen
                     </button>
