@@ -62,8 +62,8 @@ export function DiagnosesList({ diagnoses }: DiagnosesListProps) {
             </thead>
             <tbody className="divide-y divide-[var(--border)]">
               {diagnoses.map((d, i) => {
-                const status = statusConfig[d.status];
-                const conf = confidenceConfig[d.confidence];
+                const status = statusConfig[d.status] ?? statusConfig.active;
+                const conf = confidenceConfig[d.confidence] ?? confidenceConfig.medium;
                 return (
                   <tr
                     key={i}

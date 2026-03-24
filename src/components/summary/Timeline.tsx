@@ -57,7 +57,7 @@ export function Timeline({ events }: TimelineProps) {
 
           <div className="space-y-0">
             {sorted.map((event, i) => {
-              const cfg = categoryConfig[event.category];
+              const cfg = categoryConfig[event.category] ?? categoryConfig.other;
               const Icon = cfg.icon;
 
               return (

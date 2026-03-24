@@ -1,0 +1,11 @@
+[   51051ms] TypeError: Cannot read properties of undefined (reading 'icon')
+    at https://doc-summary-production.up.railway.app/_next/static/chunks/0enr35ulm3ae6.js:1:70235
+    at Array.map (<anonymous>)
+    at ed (https://doc-summary-production.up.railway.app/_next/static/chunks/0enr35ulm3ae6.js:1:70198)
+    at ay (https://doc-summary-production.up.railway.app/_next/static/chunks/16g.ca89g7fib.js:1:63845)
+    at oJ (https://doc-summary-production.up.railway.app/_next/static/chunks/16g.ca89g7fib.js:1:84102)
+    at iu (https://doc-summary-production.up.railway.app/_next/static/chunks/16g.ca89g7fib.js:1:95704)
+    at sd (https://doc-summary-production.up.railway.app/_next/static/chunks/16g.ca89g7fib.js:1:138944)
+    at https://doc-summary-production.up.railway.app/_next/static/chunks/16g.ca89g7fib.js:1:138789
+    at sf (https://doc-summary-production.up.railway.app/_next/static/chunks/16g.ca89g7fib.js:1:138797)
+    at se (https://doc-summary-production.up.railway.app/_next/static/chunks/16g.ca89g7fib.js:1:134718)
