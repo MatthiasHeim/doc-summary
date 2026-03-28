@@ -4,6 +4,7 @@ import "./globals.css";
 import { UploadStoreProvider } from "@/lib/upload-store";
 import { SourceSheetProvider } from "@/lib/source-sheet-store";
 import { NavHeader } from "@/components/NavHeader";
+import { ConsentGate } from "@/components/ConsentGate";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,8 +28,10 @@ export default function RootLayout({
       <body className={`${inter.className} min-h-screen antialiased`}>
         <UploadStoreProvider>
           <SourceSheetProvider>
-            <NavHeader />
-            {children}
+            <ConsentGate>
+              <NavHeader />
+              {children}
+            </ConsentGate>
           </SourceSheetProvider>
         </UploadStoreProvider>
       </body>
